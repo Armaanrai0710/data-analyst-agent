@@ -13,7 +13,10 @@ async def process_task(questions_file, attachments):
         url = "https://en.wikipedia.org/wiki/List_of_highest-grossing_films"
         df = scrape_wikipedia_table(url)
 
-        df["Worldwide gross"] = df["Worldwide gross"].replace('[\$,]', '', regex=True).astype(float)
+        df["Worldwide gross"] = (df["Worldwide gross"].replace('[\$,]', '', regex=True).apply(lambda x: pd.to_numeric(x, errors='coerce')))
+        # Optional: Drop rows with invalid (non-numeric) values
+        df = df.dropna(subset=["Worldwide gross"])
+
         df["Rank"] = df["Rank"].astype(int)
         df["Peak"] = df["Peak"].astype(int)
 
