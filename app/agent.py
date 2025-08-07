@@ -18,7 +18,10 @@ async def process_task(questions_file, attachments):
         df = df.dropna(subset=["Worldwide gross"])
 
         df["Rank"] = df["Rank"].astype(int)
+        df["Peak"] = pd.to_numeric(df["Peak"], errors="coerce")
+        df = df.dropna(subset=["Peak"])
         df["Peak"] = df["Peak"].astype(int)
+
 
         q1 = len(df[(df["Worldwide gross"] >= 2_000_000_000) & (df["Year"] < 2000)])
         q2 = df[df["Worldwide gross"] >= 1_500_000_000].sort_values("Year").iloc[0]["Title"]
