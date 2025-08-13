@@ -6,7 +6,7 @@ app = FastAPI()
 
 @app.post("/api/")
 async def analyze(
-    questions: UploadFile = File(...),
+    questions: UploadFile = File(...), 
     files: list[UploadFile] = File(default=[])
 ):
     response = await process_task(questions, files)
