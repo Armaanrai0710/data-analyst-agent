@@ -2633,7 +2633,17 @@ async def aianalyst(request: Request):
         )
 
     
-    lines = raw_code.split('\n')
+    if isinstance(raw_code, dict):
+    # Adjust depending on your data structure
+    if "content" in raw_code:
+        raw_code = raw_code["content"]
+    else:
+        raise ValueError(f"Unexpected raw_code format: {raw_code}")
+
+    if isinstance(raw_code, str):
+    lines = raw_code.split("\n")
+    else:
+        raise ValueError(f"raw_code is not a string: {type(raw_code)}")
     clean_lines = []
     in_code_block = False
 
